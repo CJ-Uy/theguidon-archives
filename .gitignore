@@ -32,6 +32,7 @@ content_script/parse.bat
 /.next/
 /out/
 next-env.d.ts
+*.tsbuildinfo
 
 # Cloudflare / OpenNext
 .open-next/
