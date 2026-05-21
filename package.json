@@ -30,5 +30,9 @@
     "drizzle-kit": "^0.31.0",
     "typescript": "^5.7.0",
     "wrangler": "^4.0.0"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp", "workerd"]
   }
 }
