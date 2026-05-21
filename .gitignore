@@ -8,8 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-/dist
-/dist-ssr
 *.local
 
 # Editor directories and files
@@ -29,3 +27,21 @@ content_script/content.json
 content_script/contributors.txt
 content_script/contributors.json
 content_script/parse.bat
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
+# Cloudflare / OpenNext
+.open-next/
+.wrangler/
+worker-configuration.d.ts
+
+# Env files
+.env
+.env*.local
+
+# Claude Code
+CLAUDE.md
+.claude
