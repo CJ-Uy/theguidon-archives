@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import { AlertBarProvider } from "@/lib/alert-bar-context";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import AlertBar from "@/components/alert-bar";
 import "@/styles/fonts.css";
 import "@/styles/globals.css";
 
@@ -11,7 +16,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AlertBarProvider>
+          <Suspense fallback={<header />}>
+            <Header />
+          </Suspense>
+          <main>{children}</main>
+          <Footer />
+          <AlertBar />
+        </AlertBarProvider>
+      </body>
     </html>
   );
 }
