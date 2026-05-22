@@ -1,0 +1,115 @@
+.filters .range-filter-container .filter .nav-cell {
+  /* border: 1px solid var(--gdn-blue); */
+  border-radius: 4px;
+  padding: 0 12px;
+
+  transition: 0.3s;
+
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  position: relative;
+}
+
+.filters .range-filter-container .filter .nav-cell.has-filter {
+  padding: 0 calc(12px + 12px) 0 12px;
+}
+
+.filters .range-filter-container .filter .nav-cell.active {
+  background-color: var(--gdn-blue);
+  color: white;
+}
+
+.filters .range-filter-container .filter .nav-cell:hover {
+  background-color: var(--blue-alt-1);
+  color: white;
+}
+
+.filters .range-filter-container .nav-cell .close {
+  display: inline-block;
+  /* display: none; */
+  width: 16px;
+  height: 16px;
+  color: var(--gdn-blue);
+  stroke: white;
+
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translate(0, -50%) !important;
+
+  transition: 0.3s;
+}
+
+.filters .range-filter-container .nav-cell .close * {
+  pointer-events: none;
+}
+
+.filters .range-filter-container .nav-cell.active .close {
+  color: var(--blue-light);
+  stroke: var(--gdn-blue);
+}
+
+.filters .range-filter-container .popup {
+  width: 100%;
+  max-width: 256px;
+}
+
+.filters .range-filter-container .nav {
+  margin: 0 0 4px;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 8px;
+}
+
+.filters .range-filter-container .nav .selected {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.filters .range-filter-container .nav p {
+  font-weight: bold;
+  text-align: center;
+  font-size: var(--body-s-font-size);
+  border-radius: 16px;
+
+  padding: 4px 8px;
+
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  width: max-content;
+}
+
+.filters .range-filter-container .nav p.clickable {
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.filters .range-filter-container .nav p.clickable:hover {
+  background-color: var(--blue-alt-2);
+  color: white;
+}
+
+.filters .range-filter-container hr {
+  margin: 0 0 16px;
+}
+
+.filters .range-filter-container .show {
+  display: block;
+}
+
+.filters .range-filter-container .show-grid {
+  display: grid;
+}
+
+.filters .range-filter-container .hide {
+  display: none;
+}
