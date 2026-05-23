@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import AlertBar from "@/components/alert-bar";
 import "@/styles/fonts.css";
 import "@/styles/globals.css";
+import "@/styles/tailwind.css";
 
 export const metadata: Metadata = {
   title: "The GUIDON Archives",

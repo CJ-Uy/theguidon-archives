@@ -1,13 +1,16 @@
 "use client";
 
-import * as pdfjs from "pdfjs-dist";
+type PdfJs = typeof import("pdfjs-dist");
 
-let workerInitialized = false;
-function ensureWorker() {
-  if (!workerInitialized) {
-    pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-    workerInitialized = true;
+let pdfjsPromise: Promise<PdfJs> | null = null;
+async function loadPdfJs(): Promise<PdfJs> {
+  if (!pdfjsPromise) {
+    pdfjsPromise = import("pdfjs-dist").then((mod) => {
+      mod.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+      return mod;
+    });
   }
+  return pdfjsPromise;
 }
 
 const TARGET_WIDTH = 1500;
@@ -17,7 +20,7 @@ export async function pdfPagesToWebp(
   file: File,
   onProgress?: (done: number, total: number) => void,
 ): Promise<{ blobs: Blob[]; numPages: number }> {
-  ensureWorker();
+  const pdfjs = await loadPdfJs();
   const buf = await file.arrayBuffer();
   const doc = await pdfjs.getDocument({ data: buf }).promise;
   const numPages = doc.numPages;

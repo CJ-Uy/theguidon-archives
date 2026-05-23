@@ -1,3 +1,5 @@
+@layer legacy {
+
 *,
 html,
 body {
@@ -296,4 +298,6 @@ hr {
   .mobile {
     display: block;
   }
+}
+
 }
