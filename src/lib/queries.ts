@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { issues, categories, issueCategories } from "./schema";
-import { and, eq, gte, lte, sql, desc, asc } from "drizzle-orm";
+import { and, eq, gte, lt, lte, sql, desc, asc } from "drizzle-orm";
 import type { Issue } from "./schema";
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -34,10 +34,16 @@ function whereForList(p: ListIssuesParams) {
   if (p.volume != null) clauses.push(eq(issues.volumeNum, p.volume));
   if (p.year != null) {
     clauses.push(gte(issues.datePublished, `${p.year}-01-01`));
-    clauses.push(lte(issues.datePublished, `${p.year}-12-31T23:59:59`));
+    clauses.push(lt(issues.datePublished, `${p.year + 1}-01-01`));
   }
   if (p.from) clauses.push(gte(issues.datePublished, p.from));
-  if (p.until) clauses.push(lte(issues.datePublished, p.until));
+  if (p.until) {
+    // exclusive upper bound on the day after to avoid lex-comparison bugs
+    // when timestamps carry millisecond precision suffixes
+    const d = new Date(p.until);
+    d.setUTCDate(d.getUTCDate() + 1);
+    clauses.push(lt(issues.datePublished, d.toISOString().slice(0, 10)));
+  }
   if (p.search && p.search.trim()) {
     const like$ = `%${p.search.trim()}%`;
     clauses.push(

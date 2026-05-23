@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { listIssues, getMinMaxDates } from "@/lib/queries";
-import { dbCategoryFor, listingTitle } from "@/lib/category-slug";
+import { dbCategoryFor } from "@/lib/category-slug";
 import { calculatePageNums } from "@/lib/format";
 import {
   validatePage,
@@ -68,9 +68,6 @@ export default async function BrowsePage({ params, searchParams }: Props) {
     page,
     order: isAscending ? "asc" : "desc",
   });
-
-  // unused listing-title variable in legacy — keep behavior identical: only used internally if needed
-  void listingTitle(slug);
 
   const subheader = slug === "recent" ? "Recently Uploaded" : "Browse";
   const heading = slug === "recent" ? "What's New on the Archive" : "The Archive";

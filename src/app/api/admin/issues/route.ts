@@ -48,8 +48,8 @@ export async function POST(req: Request) {
     hasPages: false,
     coverUploaded: false,
     status: "draft",
-    issueContent: body.issueContent ?? "[]",
-    contributors: body.contributors ?? "[]",
+    issueContent: body.issueContent && body.issueContent.trim().length > 0 ? body.issueContent : "[]",
+    contributors: body.contributors && body.contributors.trim().length > 0 ? body.contributors : "[]",
     createdAt: now,
     updatedAt: now,
   }).returning({ id: issues.id });
