@@ -1,15 +1,14 @@
 "use client";
 
-import { publicUrl, r2Keys } from "@/lib/storage";
 import {
-  Download,
-  Maximize2,
-  Minus,
-  Minimize2,
-  Plus,
-  ScrollText,
+  ArrowDownUp,
   BookOpen,
-  Columns2,
+  Download,
+  FileText,
+  Maximize2,
+  Minimize2,
+  Minus,
+  Plus,
 } from "lucide-react";
 
 export type ReaderMode = "scroll" | "single" | "double";
@@ -22,8 +21,7 @@ type Props = {
   onZoomOut: () => void;
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
-  issueId: number;
-  hasPdf: boolean;
+  pdfUrl: string | null;
   issueSlug: string;
   issueTitle: string;
   allowDouble: boolean;
@@ -45,7 +43,7 @@ export default function ReaderTitleBar(props: Props) {
           aria-label="Long scroll view"
           aria-pressed={props.mode === "scroll"}
         >
-          <ScrollText size={13} />
+          <ArrowDownUp size={13} />
           Scroll
         </button>
         <button
@@ -54,7 +52,7 @@ export default function ReaderTitleBar(props: Props) {
           aria-label="Single page view"
           aria-pressed={props.mode === "single"}
         >
-          <BookOpen size={13} />
+          <FileText size={13} />
           Page
         </button>
         {props.allowDouble && (
@@ -64,7 +62,7 @@ export default function ReaderTitleBar(props: Props) {
             aria-label="Double page spread view"
             aria-pressed={props.mode === "double"}
           >
-            <Columns2 size={13} />
+            <BookOpen size={13} />
             Spread
           </button>
         )}
@@ -89,10 +87,10 @@ export default function ReaderTitleBar(props: Props) {
           {props.isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
         </button>
 
-        {props.hasPdf && (
+        {props.pdfUrl && (
           <a
             className="download"
-            href={publicUrl(r2Keys.pdf(props.issueId))}
+            href={props.pdfUrl}
             download
             aria-label="Download PDF"
             title="Download PDF"

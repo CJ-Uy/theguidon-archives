@@ -41,6 +41,7 @@ export default async function IssuePage({ params }: Props) {
     hasPages: issue.hasPages,
   });
   const coverSrc = ck ? publicUrl(ck) : null;
+  const publicBaseUrl = (process.env.NEXT_PUBLIC_R2_PUBLIC_BASE_URL ?? "").replace(/\/$/, "");
   const shareUrl = `https://archives.theguidon.com/issue/${issue.slug}`;
   const archivesEntries = Object.entries(ArchivesData);
 
@@ -54,6 +55,7 @@ export default async function IssuePage({ params }: Props) {
             issueTitle={issue.title}
             numPages={issue.numPages}
             hasPdf={issue.hasPdf}
+            publicBaseUrl={publicBaseUrl}
           />
         </Suspense>
       ) : (

@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { publicUrl, r2Keys } from "@/lib/storage";
 import ReaderRail from "./slider";
 import ReaderTitleBar, { type ReaderMode } from "./title-bar";
 import "./reader.css";
@@ -14,6 +13,9 @@ type Props = {
   issueTitle: string;
   numPages: number;
   hasPdf: boolean;
+  /** Server-resolved R2 base URL (empty string if not configured). Avoids
+   *  relying on NEXT_PUBLIC_R2_PUBLIC_BASE_URL being inlined at build time. */
+  publicBaseUrl: string;
 };
 
 function parseMode(raw: string | null): ReaderMode {
@@ -162,9 +164,11 @@ export default function Reader(props: Props) {
     else containerRef.current?.requestFullscreen();
   }
 
+  const baseUrl = props.publicBaseUrl.replace(/\/$/, "");
   function pageUrl(n: number) {
-    return publicUrl(r2Keys.page(props.issueId, n));
+    return `${baseUrl}/pages/${props.issueId}/${n}.webp`;
   }
+  const pdfUrl = `${baseUrl}/pdfs/${props.issueId}.pdf`;
 
   const pageNumbers = useMemo(
     () => Array.from({ length: props.numPages }, (_, i) => i + 1),
@@ -181,8 +185,7 @@ export default function Reader(props: Props) {
         onZoomOut={() => setZoom((z) => Math.max(0.5, +(z - 0.25).toFixed(2)))}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
-        issueId={props.issueId}
-        hasPdf={props.hasPdf}
+        pdfUrl={props.hasPdf ? pdfUrl : null}
         issueSlug={props.issueSlug}
         issueTitle={props.issueTitle}
         allowDouble={allowDouble}
