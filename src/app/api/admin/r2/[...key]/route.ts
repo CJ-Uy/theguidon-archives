@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { getR2 } from "@/lib/storage";
 
-export const runtime = "edge";
-
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ key: string[] }> },
