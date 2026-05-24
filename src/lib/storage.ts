@@ -60,11 +60,28 @@ export async function presignPutUrl(params: PresignParams): Promise<string> {
 
 export type R2Binding = R2Bucket;
 
-export function getR2(): R2Binding {
-  const ctx = getCloudflareContext();
-  const env = ctx.env as unknown as { R2: R2Bucket };
-  if (!env.R2) {
-    throw new Error("R2 binding not available on Cloudflare context");
+export function getR2(): R2Binding | null {
+  try {
+    const ctx = getCloudflareContext();
+    const env = ctx.env as unknown as { R2?: R2Bucket };
+    return env.R2 ?? null;
+  } catch {
+    return null;
   }
-  return env.R2;
+}
+
+export type R2Credentials = {
+  accessKeyId: string;
+  secretAccessKey: string;
+  accountId: string;
+  bucket: string;
+};
+
+export function getR2Credentials(): R2Credentials | null {
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const bucket = process.env.R2_BUCKET_NAME ?? "theguidon-archives";
+  if (!accessKeyId || !secretAccessKey || !accountId) return null;
+  return { accessKeyId, secretAccessKey, accountId, bucket };
 }

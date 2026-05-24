@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { presignPutUrl, r2Keys } from "@/lib/storage";
+import { getR2Credentials, presignPutUrl, r2Keys } from "@/lib/storage";
 
 const EXPIRES_SECONDS = 3600;
 
@@ -19,18 +19,13 @@ export async function POST(
 
   const body = (await req.json()) as UrlsBody;
 
-  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
-  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-  if (!accessKeyId || !secretAccessKey || !accountId) {
+  const creds = getR2Credentials();
+  if (!creds) {
     return NextResponse.json({ error: "R2 credentials not configured" }, { status: 500 });
   }
 
   const common = {
-    accessKeyId,
-    secretAccessKey,
-    accountId,
-    bucket: "theguidon-archives",
+    ...creds,
     expiresInSeconds: EXPIRES_SECONDS,
   };
 

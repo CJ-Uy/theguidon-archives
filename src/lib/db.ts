@@ -80,16 +80,11 @@ function createHttpClient(): DbClient {
 }
 
 const globalForDb = globalThis as unknown as { db: DbClient | undefined };
-const isDev = process.env.NODE_ENV === "development";
 
 export const db = new Proxy({} as DbClient, {
   get(_target, prop) {
     if (!globalForDb.db) {
-      if (isDev) {
-        globalForDb.db = createHttpClient();
-      } else {
-        globalForDb.db = createNativeClient() ?? createHttpClient();
-      }
+      globalForDb.db = createNativeClient() ?? createHttpClient();
     }
     return (globalForDb.db as unknown as Record<string | symbol, unknown>)[prop];
   },
