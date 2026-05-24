@@ -1,35 +1,36 @@
-import Link from "next/link";
-import { Archive, Upload } from "lucide-react";
+import { db } from "@/lib/db";
+import { issues } from "@/lib/schema";
+import { count, desc, max } from "drizzle-orm";
+import { formatDate } from "@/lib/dates";
+import AdminSidebar from "@/components/admin/sidebar";
+import "./admin.css";
 
 export const metadata = { title: "Admin | The GUIDON Archives" };
+export const dynamic = "force-dynamic";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const [{ total }] = await db.select({ total: count() }).from(issues);
+  const lastUpdatedRow = await db
+    .select({ d: max(issues.datePublished) })
+    .from(issues);
+  const lastDate = lastUpdatedRow[0]?.d ?? null;
+
+  const recent = await db
+    .select({ id: issues.id, slug: issues.slug, title: issues.title })
+    .from(issues)
+    .orderBy(desc(issues.updatedAt))
+    .limit(3);
+
   return (
-    <div data-tw className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-20 border-b bg-background/95 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6 lg:px-8">
-          <Link href="/admin" className="text-sm font-semibold tracking-tight">
-            GUIDON Admin
-          </Link>
-          <nav className="flex items-center gap-1 text-sm">
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              <Archive className="h-4 w-4" />
-              Issues
-            </Link>
-            <Link
-              href="/admin/upload"
-              className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              <Upload className="h-4 w-4" />
-              Upload
-            </Link>
-          </nav>
-        </div>
-      </header>
-      <main>{children}</main>
+    <div data-tw className="admin-theme min-h-screen">
+      <div className="grid min-h-screen grid-cols-[17rem_minmax(0,1fr)]">
+        <AdminSidebar
+          totalIssues={total}
+          lastPublished={lastDate ? formatDate(lastDate) : null}
+          recent={recent}
+        />
+        <div className="admin-paper relative">{children}</div>
+      </div>
     </div>
   );
 }

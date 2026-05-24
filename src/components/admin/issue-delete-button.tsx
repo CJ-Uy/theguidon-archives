@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Loader2, Trash2 } from "lucide-react";
 
 export default function IssueDeleteButton({ id, title }: { id: number; title: string }) {
@@ -11,7 +10,7 @@ export default function IssueDeleteButton({ id, title }: { id: number; title: st
 
   async function onDelete() {
     const ok = window.confirm(
-      `Delete "${title}"?\n\nThis removes the database row and all R2 objects (PDF, cover, page WebPs). This cannot be undone.`,
+      `Retire "${title}" from the archive?\n\nThis removes the database row and every R2 object (PDF, cover, page WebPs). The action is irreversible.`,
     );
     if (!ok) return;
     setBusy(true);
@@ -31,15 +30,13 @@ export default function IssueDeleteButton({ id, title }: { id: number; title: st
   }
 
   return (
-    <Button
+    <button
       onClick={onDelete}
       disabled={busy}
-      size="sm"
-      variant="ghost"
-      className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+      aria-label="Delete entry"
+      className="btn-icon-danger"
     >
       {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
-      Delete
-    </Button>
+    </button>
   );
 }

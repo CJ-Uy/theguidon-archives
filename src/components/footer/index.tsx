@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useAlertBar } from "@/lib/alert-bar-context";
 import "./index.css";
@@ -12,7 +13,9 @@ const EMAIL_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function Footer() {
+  const pathname = usePathname();
   const { show } = useAlertBar();
+  if (pathname?.startsWith("/admin")) return null;
 
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);

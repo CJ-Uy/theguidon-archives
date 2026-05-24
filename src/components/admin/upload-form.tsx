@@ -267,11 +267,15 @@ export default function AdminUploadForm() {
   }
 
   return (
-    <div data-tw className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-semibold tracking-tight">Upload Issue</h1>
-        <p className="mt-1.5 text-sm text-muted-foreground">
-          Add a new release to The GUIDON Archives. PDF pages are converted to WebP in your browser before upload.
+    <div className="admin-page max-w-3xl">
+      <div className="admin-in admin-in-1 mb-8">
+        <div className="smallcaps text-(--muted-fg) mb-3">Composition · new entry</div>
+        <h1 className="font-serif text-[3rem] leading-[0.95] tracking-[-0.015em]">
+          Compose an Issue
+        </h1>
+        <p className="font-serif italic mt-3 text-(--ink-2) max-w-xl">
+          Lodge a new release into the archive. PDF pages are quietly converted to WebP in the
+          browser before they travel to the press.
         </p>
       </div>
 

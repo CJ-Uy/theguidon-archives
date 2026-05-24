@@ -110,27 +110,32 @@ export default function EditIssueForm({ issue }: { issue: IssueData }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <Button asChild variant="ghost" size="sm" className="-ml-3 mb-2">
-          <Link href="/admin">
-            <ArrowLeft className="h-4 w-4" />
-            Back to issues
-          </Link>
-        </Button>
-        <h1 className="text-3xl font-semibold tracking-tight">Edit Issue</h1>
-        <p className="mt-1.5 text-sm text-muted-foreground">
-          Update metadata for <span className="font-medium">{issue.title}</span>. File uploads are not editable here.
+    <div className="admin-page max-w-3xl">
+      <div className="admin-in admin-in-1 mb-8">
+        <Link
+          href="/admin"
+          className="btn-ghost -ml-2 inline-flex mb-3 smallcaps"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to index
+        </Link>
+        <div className="smallcaps text-(--muted-fg) mb-2">Editing entry · №{issue.id}</div>
+        <h1 className="font-serif text-[2.75rem] leading-[0.95] tracking-[-0.015em]">
+          {issue.title}
+        </h1>
+        <p className="font-serif italic mt-3 text-(--ink-2)">
+          Refine the metadata for this volume. File uploads are not editable here.
         </p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Issue details</CardTitle>
-            <CardDescription>Title, slug, and date.</CardDescription>
+      <form onSubmit={onSubmit} className="admin-in admin-in-2 space-y-0">
+        <Card className="rounded-none border-(--rule)">
+          <CardHeader className="border-b border-(--rule)">
+            <div className="smallcaps text-(--muted-fg) mb-1">Article I</div>
+            <CardTitle className="font-serif text-2xl font-medium">Issue details</CardTitle>
+            <CardDescription className="font-serif italic">Title, slug, and date of publication.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
+          <CardContent className="space-y-5 pt-6">
             <div className="space-y-2">
               <Label htmlFor="title">Title <span className="text-destructive">*</span></Label>
               <Input id="title" value={title} onChange={(e) => setTitle(e.currentTarget.value)} required />
@@ -217,11 +222,13 @@ export default function EditIssueForm({ issue }: { issue: IssueData }) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Categorization</CardTitle>
+        <Card className="rounded-none border-t-0 border-(--rule)">
+          <CardHeader className="border-b border-(--rule)">
+            <div className="smallcaps text-(--muted-fg) mb-1">Article II</div>
+            <CardTitle className="font-serif text-2xl font-medium">Categorization</CardTitle>
+            <CardDescription className="font-serif italic">Where this entry sits in the catalogue.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
+          <CardContent className="space-y-5 pt-6">
             <div className="grid gap-3 sm:grid-cols-2">
               {CATEGORY_OPTIONS.map((c) => {
                 const checked = selectedCategories.includes(c.slug);
@@ -263,12 +270,13 @@ export default function EditIssueForm({ issue }: { issue: IssueData }) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Assets</CardTitle>
-            <CardDescription>Read-only summary. Re-uploads aren&apos;t supported in this form.</CardDescription>
+        <Card className="rounded-none border-t-0 border-(--rule)">
+          <CardHeader className="border-b border-(--rule)">
+            <div className="smallcaps text-(--muted-fg) mb-1">Article III</div>
+            <CardTitle className="font-serif text-2xl font-medium">Assets</CardTitle>
+            <CardDescription className="font-serif italic">Read-only summary. Re-uploads are not supported here.</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="flex flex-wrap gap-2">
               <Badge variant={issue.hasPdf ? "default" : "outline"}>PDF {issue.hasPdf ? "✓" : "—"}</Badge>
               <Badge variant={issue.coverUploaded ? "default" : "outline"}>
@@ -281,12 +289,13 @@ export default function EditIssueForm({ issue }: { issue: IssueData }) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Structured content</CardTitle>
-            <CardDescription>JSON blobs for issue content and contributors.</CardDescription>
+        <Card className="rounded-none border-t-0 border-(--rule)">
+          <CardHeader className="border-b border-(--rule)">
+            <div className="smallcaps text-(--muted-fg) mb-1">Article IV</div>
+            <CardTitle className="font-serif text-2xl font-medium">Structured content</CardTitle>
+            <CardDescription className="font-serif italic">JSON blobs for issue content and contributors.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
+          <CardContent className="space-y-5 pt-6">
             <div className="space-y-2">
               <Label htmlFor="content-json">Issue content</Label>
               <Textarea
@@ -318,14 +327,17 @@ export default function EditIssueForm({ issue }: { issue: IssueData }) {
           </Alert>
         )}
 
-        <div className="sticky bottom-4 z-10 flex items-center justify-end gap-3 rounded-lg border bg-background/95 px-4 py-3 shadow-sm backdrop-blur">
-          <Button asChild variant="ghost">
-            <Link href="/admin">Cancel</Link>
-          </Button>
-          <Button type="submit" disabled={saving || !canSubmit} size="lg">
-            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            Save changes
-          </Button>
+        <div className="sticky bottom-4 z-10 mt-6 flex items-center justify-between gap-3 border border-(--rule) bg-(--paper)/95 px-5 py-3 backdrop-blur">
+          <span className="smallcaps text-(--muted-fg)">
+            {canSubmit ? "Ready to publish revisions" : "Complete required fields"}
+          </span>
+          <div className="flex gap-2">
+            <Link href="/admin" className="btn-ghost">Cancel</Link>
+            <button type="submit" disabled={saving || !canSubmit} className="btn-press disabled:opacity-50">
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+              Save revisions
+            </button>
+          </div>
         </div>
       </form>
     </div>

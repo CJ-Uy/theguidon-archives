@@ -1,0 +1,305 @@
+/* Admin shell — editorial archive aesthetic.
+   Tokens are scoped to `.admin-theme` so the rest of the app is untouched. */
+
+.admin-theme {
+  /* Paper + ink palette */
+  --paper:        oklch(0.978 0.012 80);
+  --paper-2:      oklch(0.955 0.014 78);
+  --paper-3:      oklch(0.925 0.016 78);
+  --ink:          oklch(0.180 0.012 60);
+  --ink-2:        oklch(0.255 0.012 60);
+  --rule:         oklch(0.870 0.012 80);
+  --rule-strong:  oklch(0.760 0.012 75);
+  --muted-fg:     oklch(0.500 0.012 60);
+  --press-red:    oklch(0.520 0.180 30);
+  --press-red-soft: oklch(0.930 0.060 30);
+
+  /* shadcn variable overrides — admin uses paper/ink instead of the public theme */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-2);
+  --muted-foreground: var(--muted-fg);
+  --accent: var(--paper-2);
+  --accent-foreground: var(--ink);
+  --destructive: var(--press-red);
+  --destructive-foreground: var(--paper);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--ink);
+  --radius: 0.25rem;
+
+  color: var(--ink);
+  background: var(--paper);
+
+  font-family: "Chivo", system-ui, sans-serif;
+}
+
+/* Subtle paper texture using a tiled SVG noise. Cheap, no JS, no asset. */
+.admin-paper {
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0.035 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+}
+
+.admin-ink {
+  background-color: var(--ink);
+  color: oklch(0.92 0.012 80);
+  background-image:
+    radial-gradient(circle at 100% 0%, oklch(0.26 0.014 60) 0%, transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: auto, 240px 240px;
+}
+
+/* Typography helpers */
+.font-serif {
+  font-family: "Tiempos Headline", "Iowan Old Style", "Apple Garamond", Georgia, serif;
+  font-feature-settings: "onum" 1, "liga" 1;
+}
+
+.font-mono-tab {
+  font-family: "Chivo", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.smallcaps {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+.smallcaps-lg {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Sidebar nav link */
+.admin-nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 2px;
+  color: oklch(0.72 0.012 80);
+  font-size: 0.875rem;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.admin-nav-link:hover {
+  color: oklch(0.98 0.012 80);
+  background-color: oklch(0.24 0.014 60);
+}
+.admin-nav-link[data-active="true"] {
+  color: oklch(0.98 0.012 80);
+  background-color: oklch(0.24 0.014 60);
+}
+.admin-nav-link[data-active="true"]::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 1.25rem;
+  background: var(--press-red);
+}
+
+.admin-nav-link .count {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: oklch(0.55 0.012 70);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hairline section divider used in sidebar + page bodies */
+.hairline {
+  border: 0;
+  height: 1px;
+  background: var(--rule);
+}
+.hairline-dark {
+  border: 0;
+  height: 1px;
+  background: oklch(0.30 0.012 60);
+}
+
+/* Row in the issues index */
+.archive-row {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) 9rem 8rem 11rem 6rem;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  transition: background-color 120ms ease;
+}
+.archive-row:hover {
+  background: var(--paper-2);
+}
+.archive-row .actions {
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.archive-row:hover .actions,
+.archive-row:focus-within .actions {
+  opacity: 1;
+}
+
+.archive-header {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) 9rem 8rem 11rem 6rem;
+  gap: 1.25rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--rule-strong);
+  background: transparent;
+}
+
+/* Status dot */
+.status-dot {
+  display: inline-block;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 999px;
+  margin-right: 0.5rem;
+  vertical-align: 0.06em;
+}
+.status-dot.ready      { background: oklch(0.55 0.14 145); }
+.status-dot.draft      { background: oklch(0.70 0.012 80); }
+.status-dot.processing { background: oklch(0.70 0.16 70); animation: pulse 1.6s ease-in-out infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* Asset chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.0625rem 0.4375rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  background: transparent;
+}
+
+/* Decorative drop-cap for the page lede */
+.dropcap::first-letter {
+  font-family: "Tiempos Headline", Georgia, serif;
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.85;
+  padding-right: 0.08em;
+  padding-top: 0.06em;
+  font-weight: 500;
+}
+
+/* Subtle stagger-in for sidebar + content */
+@keyframes admin-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.admin-in   { animation: admin-in 360ms ease-out both; }
+.admin-in-1 { animation-delay: 30ms; }
+.admin-in-2 { animation-delay: 80ms; }
+.admin-in-3 { animation-delay: 140ms; }
+.admin-in-4 { animation-delay: 210ms; }
+
+/* Page-level container inside main */
+.admin-page {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2.5rem 3rem 4rem;
+}
+
+/* Section block — newspaper-style framed area without heavy shadow */
+.section-block {
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 1.5rem 1.75rem;
+}
+.section-block + .section-block {
+  border-top: 0;
+}
+
+/* Press-red focus ring on inputs inside admin */
+.admin-theme input:focus-visible,
+.admin-theme textarea:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px oklch(0.93 0.06 30);
+}
+
+/* Compose / primary button — square corners, ink */
+.btn-press {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 2px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  transition: background-color 120ms ease, transform 120ms ease;
+}
+.btn-press:hover { background: oklch(0.28 0.014 60); }
+.btn-press:active { transform: translateY(1px); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--ink-2);
+  border-radius: 2px;
+  font-size: 0.8125rem;
+  transition: background-color 120ms ease;
+}
+.btn-ghost:hover { background: var(--paper-2); }
+
+.btn-icon-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 2px;
+  color: var(--muted-fg);
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.btn-icon-danger:hover {
+  color: var(--press-red);
+  background: var(--press-red-soft);
+}
+
+.btn-icon-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 2px;
+  color: var(--muted-fg);
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.btn-icon-edit:hover {
+  color: var(--ink);
+  background: var(--paper-2);
+}

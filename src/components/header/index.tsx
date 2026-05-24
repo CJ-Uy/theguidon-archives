@@ -23,6 +23,8 @@ export default function Header() {
   const toggleMobileMenu = () => setShowMobileMenu((s) => !s);
   const toggleMobileSearch = () => setShowMobileSearch((s) => !s);
 
+  if (pathname?.startsWith("/admin")) return null;
+
   return (
     <header>
       <div className="general-container">
