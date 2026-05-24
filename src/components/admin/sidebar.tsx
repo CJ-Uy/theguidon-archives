@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Archive, ExternalLink, FilePlus2, LayoutGrid } from "lucide-react";
+import { Archive, ExternalLink, FilePlus2 } from "lucide-react";
 
 type Recent = { id: number; slug: string; title: string };
 
@@ -120,13 +120,6 @@ export default function AdminSidebar({
           <span className="smallcaps">View public site</span>
           <ExternalLink className="h-3 w-3 opacity-70 group-hover:opacity-100" />
         </Link>
-        <div
-          className="mt-3 flex items-center gap-2 text-[0.625rem]"
-          style={{ color: C_DIM }}
-        >
-          <LayoutGrid className="h-3 w-3" />
-          <span className="smallcaps">v2 · cloudflare</span>
-        </div>
       </div>
     </aside>
   );
