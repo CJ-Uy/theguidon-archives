@@ -22,8 +22,15 @@ export async function PUT(
     return NextResponse.json({ error: "Missing body" }, { status: 400 });
   }
   const contentType = req.headers.get("content-type") ?? "application/octet-stream";
+  const contentLength = Number(req.headers.get("content-length") ?? "0");
+  if (!contentLength) {
+    return NextResponse.json({ error: "Content-Length required" }, { status: 411 });
+  }
 
-  await r2.put(key, req.body, { httpMetadata: { contentType } });
+  const fls = new FixedLengthStream(contentLength);
+  req.body.pipeTo(fls.writable).catch(() => {});
+
+  await r2.put(key, fls.readable, { httpMetadata: { contentType } });
 
   return new NextResponse(null, { status: 204 });
 }
