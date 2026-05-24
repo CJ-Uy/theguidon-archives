@@ -2,60 +2,65 @@
    Tokens are scoped to `.admin-theme` so the rest of the app is untouched. */
 
 .admin-theme {
-  /* Paper + ink palette */
-  --paper:        oklch(0.978 0.012 80);
-  --paper-2:      oklch(0.955 0.014 78);
-  --paper-3:      oklch(0.925 0.016 78);
-  --ink:          oklch(0.180 0.012 60);
-  --ink-2:        oklch(0.255 0.012 60);
-  --rule:         oklch(0.870 0.012 80);
-  --rule-strong:  oklch(0.760 0.012 75);
-  --muted-fg:     oklch(0.500 0.012 60);
-  --press-red:    oklch(0.520 0.180 30);
-  --press-red-soft: oklch(0.930 0.060 30);
+  /* GUIDON brand palette — navy ink on cool blue-gray paper */
+  --paper:        #ffffff;                /* card surface */
+  --paper-2:      #eff5fa;                /* --blue-gray-light, hover/secondary */
+  --paper-3:      #dbe9f4;                /* --blue-light, accent fill */
+  --ink:          #0f265c;                /* --blue-dark, sidebar */
+  --ink-2:        #1c4480;                /* --gdn-blue, primary accent */
+  --ink-3:        #56729c;                /* --blue-gray-dark, secondary text */
+  --rule:         #d2dde5;                /* --gray-4 */
+  --rule-strong:  #b6c2cd;                /* --gray-3 */
+  --text:         #333333;                /* --gray-1 */
+  --muted-fg:     #6a757c;                /* --gray-2 */
+  --accent-blue:  #3680cc;                /* --blue-alt-2, link / active */
+  --accent-blue-soft: #dbe9f4;            /* --blue-light */
+  --danger:       #b3261e;
+  --danger-soft:  #fbe9e7;
 
-  /* shadcn variable overrides — admin uses paper/ink instead of the public theme */
-  --background: var(--paper);
-  --foreground: var(--ink);
+  /* shadcn variable overrides — admin uses GUIDON navy instead of the default neutrals */
+  --background: var(--paper-2);
+  --foreground: var(--text);
   --card: var(--paper);
-  --card-foreground: var(--ink);
+  --card-foreground: var(--text);
   --popover: var(--paper);
-  --popover-foreground: var(--ink);
-  --primary: var(--ink);
+  --popover-foreground: var(--text);
+  --primary: var(--ink-2);
   --primary-foreground: var(--paper);
-  --secondary: var(--paper-2);
+  --secondary: var(--paper-3);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-2);
   --muted-foreground: var(--muted-fg);
-  --accent: var(--paper-2);
+  --accent: var(--accent-blue-soft);
   --accent-foreground: var(--ink);
-  --destructive: var(--press-red);
+  --destructive: var(--danger);
   --destructive-foreground: var(--paper);
   --border: var(--rule);
   --input: var(--rule);
-  --ring: var(--ink);
+  --ring: var(--ink-2);
   --radius: 0.25rem;
 
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--text);
+  background: var(--paper-2);
 
   font-family: "Chivo", system-ui, sans-serif;
 }
 
-/* Subtle paper texture using a tiled SVG noise. Cheap, no JS, no asset. */
+/* Light cool-toned canvas. Subtle SVG noise tinted toward navy. */
 .admin-paper {
-  background-color: var(--paper);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0.035 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-color: var(--paper-2);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.06  0 0 0 0 0.15  0 0 0 0 0.36  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   background-size: 240px 240px;
 }
 
 .admin-ink {
   background-color: var(--ink);
-  color: oklch(0.92 0.012 80);
+  color: #dbe9f4;
   background-image:
-    radial-gradient(circle at 100% 0%, oklch(0.26 0.014 60) 0%, transparent 55%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  background-size: auto, 240px 240px;
+    radial-gradient(circle at 100% 0%, #1c4480 0%, transparent 60%),
+    radial-gradient(circle at 0% 100%, #1c4480 0%, transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: auto, auto, 240px 240px;
 }
 
 /* Typography helpers */
@@ -84,7 +89,7 @@
   font-weight: 600;
 }
 
-/* Sidebar nav link */
+/* Sidebar nav link — light text on navy */
 .admin-nav-link {
   position: relative;
   display: flex;
@@ -92,34 +97,34 @@
   gap: 0.75rem;
   padding: 0.625rem 0.875rem;
   border-radius: 2px;
-  color: oklch(0.72 0.012 80);
+  color: #b6c7df;
   font-size: 0.875rem;
   transition: color 120ms ease, background-color 120ms ease;
 }
 .admin-nav-link:hover {
-  color: oklch(0.98 0.012 80);
-  background-color: oklch(0.24 0.014 60);
+  color: #ffffff;
+  background-color: rgba(54, 128, 204, 0.18);
 }
 .admin-nav-link[data-active="true"] {
-  color: oklch(0.98 0.012 80);
-  background-color: oklch(0.24 0.014 60);
+  color: #ffffff;
+  background-color: rgba(54, 128, 204, 0.22);
 }
 .admin-nav-link[data-active="true"]::before {
   content: "";
   position: absolute;
-  left: -1rem;
+  left: -1.5rem;
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
   height: 1.25rem;
-  background: var(--press-red);
+  background: var(--accent-blue);
 }
 
 .admin-nav-link .count {
   margin-left: auto;
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
-  color: oklch(0.55 0.012 70);
+  color: #7f9bc0;
   font-variant-numeric: tabular-nums;
 }
 
@@ -132,7 +137,7 @@
 .hairline-dark {
   border: 0;
   height: 1px;
-  background: oklch(0.30 0.012 60);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Row in the issues index */
@@ -175,9 +180,9 @@
   margin-right: 0.5rem;
   vertical-align: 0.06em;
 }
-.status-dot.ready      { background: oklch(0.55 0.14 145); }
-.status-dot.draft      { background: oklch(0.70 0.012 80); }
-.status-dot.processing { background: oklch(0.70 0.16 70); animation: pulse 1.6s ease-in-out infinite; }
+.status-dot.ready      { background: var(--accent-blue); box-shadow: 0 0 0 2px var(--accent-blue-soft); }
+.status-dot.draft      { background: var(--rule-strong); }
+.status-dot.processing { background: #f5a623; animation: pulse 1.6s ease-in-out infinite; }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
@@ -238,28 +243,28 @@
   border-top: 0;
 }
 
-/* Press-red focus ring on inputs inside admin */
+/* GUIDON-blue focus ring on inputs inside admin */
 .admin-theme input:focus-visible,
 .admin-theme textarea:focus-visible {
   outline: none;
-  border-color: var(--ink);
-  box-shadow: 0 0 0 3px oklch(0.93 0.06 30);
+  border-color: var(--ink-2);
+  box-shadow: 0 0 0 3px var(--accent-blue-soft);
 }
 
-/* Compose / primary button — square corners, ink */
+/* Compose / primary button — guidon navy */
 .btn-press {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.875rem;
-  background: var(--ink);
+  background: var(--ink-2);
   color: var(--paper);
   border-radius: 2px;
   font-size: 0.8125rem;
   letter-spacing: 0.02em;
   transition: background-color 120ms ease, transform 120ms ease;
 }
-.btn-press:hover { background: oklch(0.28 0.014 60); }
+.btn-press:hover { background: var(--ink); }
 .btn-press:active { transform: translateY(1px); }
 
 .btn-ghost {
@@ -270,9 +275,9 @@
   color: var(--ink-2);
   border-radius: 2px;
   font-size: 0.8125rem;
-  transition: background-color 120ms ease;
+  transition: background-color 120ms ease, color 120ms ease;
 }
-.btn-ghost:hover { background: var(--paper-2); }
+.btn-ghost:hover { background: var(--paper-3); color: var(--ink); }
 
 .btn-icon-danger {
   display: inline-flex;
@@ -285,8 +290,8 @@
   transition: color 120ms ease, background-color 120ms ease;
 }
 .btn-icon-danger:hover {
-  color: var(--press-red);
-  background: var(--press-red-soft);
+  color: var(--danger);
+  background: var(--danger-soft);
 }
 
 .btn-icon-edit {
@@ -300,6 +305,6 @@
   transition: color 120ms ease, background-color 120ms ease;
 }
 .btn-icon-edit:hover {
-  color: var(--ink);
-  background: var(--paper-2);
+  color: var(--ink-2);
+  background: var(--accent-blue-soft);
 }

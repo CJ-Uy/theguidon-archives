@@ -6,6 +6,12 @@ import { Archive, ExternalLink, FilePlus2, LayoutGrid } from "lucide-react";
 
 type Recent = { id: number; slug: string; title: string };
 
+const C_HEADING = "#ffffff";
+const C_BODY = "#dbe9f4";
+const C_MUTED = "#9bb1cf";
+const C_DIM = "#7a93b8";
+const C_RULE = "#56729c";
+
 export default function AdminSidebar({
   totalIssues,
   lastPublished,
@@ -22,16 +28,16 @@ export default function AdminSidebar({
   return (
     <aside className="admin-ink sticky top-0 flex h-screen flex-col px-6 py-7">
       {/* Masthead */}
-      <Link href="/admin" className="block admin-in admin-in-1">
+      <Link href="/admin" className="block admin-in admin-in-1" style={{ color: C_HEADING }}>
         <div className="font-serif text-[1.65rem] leading-[0.95] tracking-[-0.01em]">
           <span className="block italic font-light opacity-90">The</span>
           <span className="block font-semibold">GUIDON</span>
         </div>
         <div className="mt-2 flex items-center gap-2">
-          <span className="block h-px w-6 bg-[oklch(0.45_0.012_70)]" />
-          <span className="smallcaps text-[oklch(0.62_0.012_80)]">Archives</span>
+          <span className="block h-px w-6" style={{ background: C_RULE }} />
+          <span className="smallcaps" style={{ color: C_BODY }}>Archives</span>
         </div>
-        <div className="mt-1 smallcaps text-[oklch(0.50_0.012_70)]" style={{ fontSize: "0.625rem" }}>
+        <div className="mt-1 smallcaps" style={{ fontSize: "0.625rem", color: C_DIM }}>
           Est. MCMXXIX · Admin
         </div>
       </Link>
@@ -40,7 +46,7 @@ export default function AdminSidebar({
 
       {/* Primary nav */}
       <div className="admin-in admin-in-2">
-        <div className="smallcaps mb-3 text-[oklch(0.55_0.012_70)]">Workspace</div>
+        <div className="smallcaps mb-3" style={{ color: C_DIM }}>Workspace</div>
         <nav className="flex flex-col gap-0.5">
           <Link href="/admin" className="admin-nav-link" data-active={isIssues}>
             <Archive className="h-4 w-4" />
@@ -58,17 +64,17 @@ export default function AdminSidebar({
 
       {/* Stats panel — newspaper-style key/value pairs */}
       <div className="admin-in admin-in-3">
-        <div className="smallcaps mb-3 text-[oklch(0.55_0.012_70)]">Archive</div>
+        <div className="smallcaps mb-3" style={{ color: C_DIM }}>Archive</div>
         <dl className="space-y-3 text-sm">
           <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-[oklch(0.62_0.012_80)]">Total entries</dt>
-            <dd className="font-serif text-lg font-medium text-[oklch(0.96_0.012_80)] font-mono-tab">
+            <dt style={{ color: C_MUTED }}>Total entries</dt>
+            <dd className="font-serif text-lg font-medium font-mono-tab" style={{ color: C_HEADING }}>
               {totalIssues}
             </dd>
           </div>
           <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-[oklch(0.62_0.012_80)]">Latest issue</dt>
-            <dd className="text-[oklch(0.92_0.012_80)] text-[0.8125rem] font-mono-tab">
+            <dt style={{ color: C_MUTED }}>Latest issue</dt>
+            <dd className="text-[0.8125rem] font-mono-tab" style={{ color: C_BODY }}>
               {lastPublished ?? "—"}
             </dd>
           </div>
@@ -79,15 +85,19 @@ export default function AdminSidebar({
         <>
           <hr className="hairline-dark my-7" />
           <div className="admin-in admin-in-4">
-            <div className="smallcaps mb-3 text-[oklch(0.55_0.012_70)]">Recently edited</div>
+            <div className="smallcaps mb-3" style={{ color: C_DIM }}>Recently edited</div>
             <ul className="space-y-2.5">
               {recent.map((r, i) => (
                 <li key={r.id} className="text-sm leading-snug">
                   <Link
                     href={`/admin/issues/${r.id}/edit`}
-                    className="group block text-[oklch(0.78_0.012_80)] hover:text-[oklch(0.98_0.012_80)] transition-colors"
+                    className="group block transition-colors"
+                    style={{ color: C_BODY }}
                   >
-                    <span className="font-mono-tab text-[0.6875rem] tracking-wider text-[oklch(0.5_0.012_70)] group-hover:text-[oklch(0.72_0.012_80)]">
+                    <span
+                      className="font-mono-tab text-[0.6875rem] tracking-wider"
+                      style={{ color: C_DIM }}
+                    >
                       №{String(i + 1).padStart(2, "0")}
                     </span>{" "}
                     <span className="font-serif italic">{r.title}</span>
@@ -104,12 +114,16 @@ export default function AdminSidebar({
         <Link
           href="/"
           target="_blank"
-          className="group inline-flex items-center gap-2 text-[0.75rem] text-[oklch(0.62_0.012_80)] hover:text-[oklch(0.95_0.012_80)] transition-colors"
+          className="group inline-flex items-center gap-2 text-[0.75rem] transition-colors"
+          style={{ color: C_MUTED }}
         >
           <span className="smallcaps">View public site</span>
           <ExternalLink className="h-3 w-3 opacity-70 group-hover:opacity-100" />
         </Link>
-        <div className="mt-3 flex items-center gap-2 text-[0.625rem] text-[oklch(0.48_0.012_70)]">
+        <div
+          className="mt-3 flex items-center gap-2 text-[0.625rem]"
+          style={{ color: C_DIM }}
+        >
           <LayoutGrid className="h-3 w-3" />
           <span className="smallcaps">v2 · cloudflare</span>
         </div>

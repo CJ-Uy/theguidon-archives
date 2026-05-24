@@ -113,14 +113,14 @@ export default async function AdminIssuesPage() {
                   <Link
                     href={`/issue/${r.slug}`}
                     target="_blank"
-                    className="font-serif text-[1.05rem] leading-snug hover:text-(--press-red) transition-colors block truncate"
+                    className="font-serif text-[1.05rem] leading-snug hover:text-(--accent-blue) transition-colors block truncate"
                   >
                     {r.title}
                   </Link>
                   <div className="mt-0.5 flex items-center gap-2 text-[0.75rem] text-(--muted-fg)">
                     <span className="font-mono-tab">{r.slug}</span>
                     {r.isLegacy && (
-                      <span className="font-serif italic text-(--press-red)">
+                      <span className="font-serif italic text-(--accent-blue)">
                         · legacy
                       </span>
                     )}
