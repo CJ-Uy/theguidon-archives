@@ -31,7 +31,7 @@ export function publicUrl(key: string): string {
 type PresignParams = {
   accessKeyId: string;
   secretAccessKey: string;
-  accountId: string;
+  endpoint: string;
   bucket: string;
   key: string;
   expiresInSeconds: number;
@@ -46,7 +46,7 @@ export async function presignPutUrl(params: PresignParams): Promise<string> {
   });
 
   const url = new URL(
-    `https://${params.accountId}.r2.cloudflarestorage.com/${params.bucket}/${params.key}`,
+    `${params.endpoint.replace(/\/$/, "")}/${params.bucket}/${params.key}`,
   );
   url.searchParams.set("X-Amz-Expires", String(params.expiresInSeconds));
 
@@ -73,15 +73,16 @@ export function getR2(): R2Binding | null {
 export type R2Credentials = {
   accessKeyId: string;
   secretAccessKey: string;
-  accountId: string;
+  endpoint: string;
   bucket: string;
 };
 
+export const R2_BUCKET = "theguidon-archives";
+
 export function getR2Credentials(): R2Credentials | null {
-  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
-  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-  const bucket = process.env.R2_BUCKET_NAME ?? "theguidon-archives";
-  if (!accessKeyId || !secretAccessKey || !accountId) return null;
-  return { accessKeyId, secretAccessKey, accountId, bucket };
+  const accessKeyId = process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
+  const endpoint = process.env.CLOUDFLARE_R2_ENDPOINT;
+  if (!accessKeyId || !secretAccessKey || !endpoint) return null;
+  return { accessKeyId, secretAccessKey, endpoint, bucket: R2_BUCKET };
 }

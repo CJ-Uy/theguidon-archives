@@ -447,7 +447,7 @@ export default function AdminUploadForm() {
                     PDF file <span className="text-destructive">*</span>
                   </span> as unknown as string
                 }
-                hint="PDF up to ~200 MB"
+                hint="PDF up to ~100 MB"
                 icon={<FileText className="h-6 w-6" />}
                 onChange={setPdfFile}
               />
