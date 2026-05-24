@@ -173,7 +173,17 @@ export default async function AdminIssuesPage() {
                   >
                     <Pencil className="h-3.5 w-3.5" />
                   </Link>
-                  <IssueDeleteButton id={r.id} title={r.title} />
+                  <IssueDeleteButton
+                    id={r.id}
+                    title={r.title}
+                    slug={r.slug}
+                    assets={{
+                      hasPdf: r.hasPdf,
+                      coverUploaded: r.coverUploaded,
+                      hasPages: r.hasPages,
+                      numPages: r.numPages,
+                    }}
+                  />
                 </div>
               </div>
             ))}
