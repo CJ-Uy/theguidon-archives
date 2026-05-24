@@ -70,6 +70,48 @@ export function getR2(): R2Binding | null {
   }
 }
 
+export async function deleteIssueAssets(id: number): Promise<void> {
+  const binding = getR2();
+  if (binding) {
+    const keys = [r2Keys.pdf(id), r2Keys.cover(id)];
+    const pageList = await binding.list({ prefix: `pages/${id}/` });
+    for (const obj of pageList.objects) keys.push(obj.key);
+    if (keys.length > 0) await binding.delete(keys);
+    return;
+  }
+
+  const creds = getR2Credentials();
+  if (!creds) {
+    throw new Error("R2 unavailable: no binding and no CLOUDFLARE_R2_* env vars");
+  }
+
+  const client = new AwsClient({
+    accessKeyId: creds.accessKeyId,
+    secretAccessKey: creds.secretAccessKey,
+    service: "s3",
+    region: "auto",
+  });
+
+  const baseUrl = `${creds.endpoint.replace(/\/$/, "")}/${creds.bucket}`;
+  const targets = [r2Keys.pdf(id), r2Keys.cover(id)];
+
+  const listUrl = new URL(baseUrl);
+  listUrl.searchParams.set("list-type", "2");
+  listUrl.searchParams.set("prefix", `pages/${id}/`);
+  const listResp = await client.fetch(listUrl.toString());
+  if (listResp.ok) {
+    const text = await listResp.text();
+    const matches = text.matchAll(/<Key>([^<]+)<\/Key>/g);
+    for (const m of matches) targets.push(m[1]);
+  }
+
+  await Promise.all(
+    targets.map((key) =>
+      client.fetch(`${baseUrl}/${key}`, { method: "DELETE" }),
+    ),
+  );
+}
+
 export type R2Credentials = {
   accessKeyId: string;
   secretAccessKey: string;
