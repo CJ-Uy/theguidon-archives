@@ -1,3 +1,5 @@
+@layer theme, base, legacy, components, utilities;
+
 @layer legacy {
 
 *,
