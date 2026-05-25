@@ -5,6 +5,7 @@ import {
   BookOpen,
   Download,
   FileText,
+  Loader2,
   Maximize2,
   Minimize2,
   Minus,
@@ -22,6 +23,9 @@ type Props = {
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
   pdfUrl: string | null;
+  onDownloadPdf: () => void;
+  downloading: boolean;
+  downloadProgress: number | null;
   issueSlug: string;
   issueTitle: string;
   allowDouble: boolean;
@@ -88,16 +92,31 @@ export default function ReaderTitleBar(props: Props) {
         </button>
 
         {props.pdfUrl && (
-          <a
+          <button
+            type="button"
             className="download"
-            href={props.pdfUrl}
-            download
-            aria-label="Download PDF"
+            onClick={props.onDownloadPdf}
+            disabled={props.downloading}
+            aria-label={
+              props.downloading
+                ? props.downloadProgress != null
+                  ? `Downloading PDF, ${props.downloadProgress}%`
+                  : "Downloading PDF"
+                : "Download PDF"
+            }
             title="Download PDF"
           >
-            <Download size={13} style={{ marginRight: 6 }} />
-            PDF
-          </a>
+            {props.downloading ? (
+              <Loader2 size={13} style={{ marginRight: 6 }} className="spin" />
+            ) : (
+              <Download size={13} style={{ marginRight: 6 }} />
+            )}
+            {props.downloading
+              ? props.downloadProgress != null
+                ? `${props.downloadProgress}%`
+                : "…"
+              : "PDF"}
+          </button>
         )}
 
         <a
