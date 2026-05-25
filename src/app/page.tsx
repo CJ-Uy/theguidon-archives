@@ -80,7 +80,14 @@ export default async function HomePage() {
             </div>
 
             {heroCoverUrl ? (
-              <img className="cover" src={heroCoverUrl} alt={hero.title} />
+              <img
+                className="cover"
+                src={heroCoverUrl}
+                alt={hero.title}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
             ) : (
               <div className="cover empty" />
             )}
@@ -146,6 +153,8 @@ export default async function HomePage() {
                       className="cover"
                       src={publicUrl(k)}
                       alt={cat.title}
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div key={issue.id} className="cover empty" />

@@ -246,10 +246,14 @@
   will-change: transform;
 }
 
-/* Image base */
+/* Image base — aspect-ratio reserves space before the WebP loads,
+   eliminating layout shift. The browser overrides this with the
+   intrinsic ratio once the image has decoded. Tabloid newsprint
+   sits at roughly 11 × 17, so 11 / 17 ≈ 0.647. */
 .reader-page {
   display: block;
   background: var(--r-paper);
+  aspect-ratio: 11 / 17;
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.05) inset,
     0 30px 50px -20px rgba(0, 0, 0, 0.55),

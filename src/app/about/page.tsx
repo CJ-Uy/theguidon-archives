@@ -35,7 +35,7 @@ export default async function AboutPage() {
                 <div className="group" key={`col-${colIdx}-group-${groupIdx}`}>
                   {covers.map((url, i) => (
                     <div className="cover-container" key={`col-${colIdx}-group-${groupIdx}-img-${i}`}>
-                      <img src={url} className="cover" alt="" />
+                      <img src={url} className="cover" alt="" loading="lazy" decoding="async" />
                     </div>
                   ))}
                 </div>

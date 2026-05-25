@@ -50,7 +50,7 @@ export default function IssueCard({ issue, loading, query }: Props) {
     <Link href={`/issue/${issue.slug}`} className="issue-card">
       <div className="cover-container">
         {cover ? (
-          <img src={cover} alt={issue.title} loading="lazy" />
+          <img src={cover} alt={issue.title} loading="lazy" decoding="async" />
         ) : null}
       </div>
 

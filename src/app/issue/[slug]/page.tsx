@@ -75,7 +75,7 @@ export default async function IssuePage({ params }: Props) {
       <section id="issue-metadata" className="general-container">
         {coverSrc ? (
           <div className="cover-container">
-            <img className="cover" src={coverSrc} alt={issue.title} />
+            <img className="cover" src={coverSrc} alt={issue.title} loading="lazy" decoding="async" />
           </div>
         ) : (
           <div className="cover-container empty" />

@@ -222,6 +222,8 @@ export default function Reader(props: Props) {
     targets.forEach((n) => {
       const img = new window.Image();
       img.decoding = "async";
+      // fetchPriority is supported in modern browsers; cast for older TS dom libs.
+      (img as HTMLImageElement & { fetchPriority?: string }).fetchPriority = "low";
       img.src = pageUrl(n);
       imgs.push(img);
     });
@@ -350,6 +352,7 @@ export default function Reader(props: Props) {
               alt={`${props.issueTitle} — page ${page}`}
               loading="eager"
               decoding="async"
+              fetchPriority="high"
             />
           )}
 
@@ -362,6 +365,7 @@ export default function Reader(props: Props) {
                   alt={`${props.issueTitle} — cover`}
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                 />
               ) : (
                 <>
@@ -371,6 +375,7 @@ export default function Reader(props: Props) {
                     alt={`${props.issueTitle} — page ${page}`}
                     loading="eager"
                     decoding="async"
+                    fetchPriority="high"
                   />
                   {rightPage && (
                     <img
@@ -379,6 +384,7 @@ export default function Reader(props: Props) {
                       alt={`${props.issueTitle} — page ${rightPage}`}
                       loading="eager"
                       decoding="async"
+                      fetchPriority="high"
                     />
                   )}
                 </>
